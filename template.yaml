@@ -9,12 +9,12 @@ Metadata:
   AWS::ServerlessRepo::Application:
     Name: stripe-webhook-endpoint
     Description: Sample Stripe Webhook Listener
-    Author: ejanicas@stripe.com
+    Author: Eduardo Janicas
     SpdxLicenseId: Apache-2.0
     LicenseUrl: LICENSE.md
     ReadmeUrl: README.md
-    Labels: ['tests']
-    HomePageUrl: https://github.com/ejanicas-stripe/stripe-webhook-endpoint
+    Labels: ['stripe', 'webhook']
+    HomePageUrl: https://stripe.com/docs/webhooks/quickstart
     SemanticVersion: 0.0.1
     SourceCodeUrl: https://github.com/ejanicas-stripe/stripe-webhook-endpoint
 

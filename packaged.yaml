@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'stripe-webhook-endpoint
+
+  Sample SAM Template for stripe-webhook-endpoint
+
+  '
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: stripe-webhook-endpoint
+    Description: Sample Stripe Webhook Listener
+    Author: Eduardo Janicas
+    SpdxLicenseId: Apache-2.0
+    LicenseUrl: s3://ejanicas-sam-packaged/b094c71d59af49dc6328a472a85f3ae3
+    ReadmeUrl: s3://ejanicas-sam-packaged/0739be977a4b546456048d4b1b0b3074
+    Labels:
+    - stripe
+    - webhook
+    HomePageUrl: https://stripe.com/docs/webhooks/quickstart
+    SemanticVersion: '0.0.1'
+    SourceCodeUrl: https://github.com/ejanicas-stripe/stripe-webhook-endpoint
+Parameters:
+  EndpointSecretParameter:
+    Type: String
+    Description: Enter your webhook endpoint secret.
+Resources:
+  WebhookEndpointFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://ejanicas-sam-packaged/8d14d556d0ea51423c568c8691331e41
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+      - x86_64
+      Timeout: 5
+      Environment:
+        Variables:
+          ENDPOINT_SECRET:
+            Ref: EndpointSecretParameter
+      Events:
+        WebhookEndpoint:
+          Type: Api
+          Properties:
+            Path: /webhook
+            Method: post
+    Metadata:
+      SamResourceId: WebhookEndpointFunction
+Outputs:
+  WebhookEndpointApi:
+    Description: API Gateway endpoint URL for Prod stage for Webhook Endpoint function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/webhook/
+  WebhookEndpointFunction:
+    Description: Webhook Endpoint Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - WebhookEndpointFunction
+      - Arn
+  WebhookEndpointFunctionIamRole:
+    Description: Implicit IAM Role created for Webhook Endpoint function
+    Value:
+      Fn::GetAtt:
+      - WebhookEndpointFunctionRole
+      - Arn
