@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "stripe-webhook-endpoint"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-a6h5b1eoz0aq"
+s3_prefix = "stripe-webhook-endpoint"
+region = "eu-west-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
