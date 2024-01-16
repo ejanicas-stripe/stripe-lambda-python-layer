@@ -1,16 +1,12 @@
-# stripe-webhook-endpoint
+# stripe-lambda-layer
 
-This project contains source code and supporting files for a Stripe Webhook Endpoint application that you can deploy with the SAM CLI. It includes the following files and folders.
+This project contains source code and supporting files for a Stripe Lambda Layer that you can deploy and and use with your own functions. It includes the following files and folders.
 
 - webhook-endpoint - Code for the endpoint's Lambda function.
 - events - Invocation events that you can use to test the function.
 - template.yaml - A template that defines the application's AWS resources.
 
-Stripe uses webhooks to notify your application when an event happens in your account. Webhooks are particularly useful for asynchronous events like when a customer’s bank confirms a payment, a customer disputes a charge, a recurring payment succeeds, or when collecting subscription payments.
-
-A webhook enables Stripe to push real-time notifications to your app. Stripe uses HTTPS to send these notifications to your app as a JSON payload. You can then use these notifications to execute actions in your backend systems.
-
-## Deploy the sample application
+## Deploy the Lambda Layer
 
 The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
 

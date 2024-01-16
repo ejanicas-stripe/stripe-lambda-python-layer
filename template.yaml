@@ -1,59 +1,32 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  stripe-webhook-endpoint
+  stripe-lambda-python-layer
 
-  Sample SAM Template for stripe-webhook-endpoint
+  Sample SAM Template for stripe-lambda-python-layer
 
 Metadata:
   AWS::ServerlessRepo::Application:
-    Name: stripe-webhook-endpoint
-    Description: Sample Stripe Webhook Listener
+    Name: stripe-lambda-python-layer
+    Description: Sample Stripe Lambda Python Layer
     Author: Eduardo Janicas
     SpdxLicenseId: Apache-2.0
     LicenseUrl: LICENSE.md
     ReadmeUrl: README.md
-    Labels: ['stripe', 'webhook']
-    HomePageUrl: https://stripe.com/docs/webhooks/quickstart
-    SemanticVersion: 0.0.1
-    SourceCodeUrl: https://github.com/ejanicas-stripe/stripe-webhook-endpoint
-
-Parameters:
-  EndpointSecretParameter:
-    Type: String
-    Description: Enter your webhook endpoint secret.
+    Labels: ['stripe', 'layer']
+    HomePageUrl: https://github.com/stripe/stripe-python
+    SemanticVersion: 1.0.0
+    SourceCodeUrl: https://github.com/ejanicas-stripe/stripe-lambda-python-layer
 
 Resources:
-  WebhookEndpointFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  LambdaPythonLayer:
+    Type: AWS::Serverless::LayerVersion
     Properties:
-      CodeUri: webhook-endpoint/
-      Handler: app.lambda_handler
-      Runtime: python3.9
-      Architectures:
-        - x86_64
-      Timeout: 5
-      Environment:
-        Variables:
-          ENDPOINT_SECRET: 
-            Ref: EndpointSecretParameter
-      Events:
-        WebhookEndpoint:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /webhook
-            Method: post
+      LayerName: stripe-lambda-python-layer
+      ContentUri: source/stripe-python-layer.zip
+      CompatibleRuntimes:
+        - python3.11
 
 Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  WebhookEndpointApi:
-    Description: "API Gateway endpoint URL for Prod stage for Webhook Endpoint function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/webhook/"
-  WebhookEndpointFunction:
-    Description: "Webhook Endpoint Lambda Function ARN"
-    Value: !GetAtt WebhookEndpointFunction.Arn
-  WebhookEndpointFunctionIamRole:
-    Description: "Implicit IAM Role created for Webhook Endpoint function"
-    Value: !GetAtt WebhookEndpointFunctionRole.Arn
+  LayerArn:
+    Value: !Ref LambdaPythonLayer
